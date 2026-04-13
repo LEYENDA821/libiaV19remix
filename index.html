@@ -208,7 +208,7 @@
         <button onclick="goTo(3)" style="background:none; border: 1px solid white;">CONTINUAR</button>
     </div>
 
-    <div class="screen" id="s3">
+      <div class="screen" id="s3">
         <h2 style="font-family:'Bebas Neue'; font-size: 2.5rem;">📸 RECUERDOS</h2>
         <div class="gallery">
             <img src="miko2.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/ffffff?text=FOTO+1'">
@@ -216,21 +216,7 @@
             <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
         </div>
         <button onclick="reproducirVoz()">🎤 ESCUCHAR</button>
-        <button onclick="goTo(5)">SIGUIENTE</button>
-    </div>
-
-    <div class="screen" id="s5">
-        <h2 style="font-family:'Bebas Neue'; font-size: 2.5rem;">DÉJALE UN MENSAJE 📝</h2>
-        <div class="msg-container">
-            <input type="text" id="userName" class="input-style" placeholder="Tu nombre...">
-            <textarea id="userMsg" class="input-style" placeholder="Tu mensaje para la cumpleañera..." rows="3"></textarea>
-            <button onclick="addMessage()" style="padding: 10px 20px; font-size: 0.7rem;">ENVIAR AL MURO</button>
-            
-            <div class="wall" id="msgWall">
-                <div class="wall-entry"><b>Ing. Alex:</b> ¡Felicidades! Que cumplas muchos más. 🚀</div>
-            </div>
-        </div>
-        <button onclick="finalSequence()" style="margin-top: 20px; background:none; border: 1px solid white;">VER EL FINAL</button>
+        <button onclick="finalSequence()">LO ÚLTIMO</button>
     </div>
 
     <div class="screen" id="s4">
@@ -257,14 +243,18 @@
     }
 
     function iniciarTodo() {
+        // Reproduce las mañanitas al entrar
         document.getElementById('mananitas').play();
         goTo(1);
     }
 
     function reproducirVoz() {
+        // Pausa las mañanitas para que no se encimen
         const mariachi = document.getElementById('mananitas');
         mariachi.pause();
-        mariachi.currentTime = 0; 
+        mariachi.currentTime = 0; // Reinicia el mariachi por si acaso
+        
+        // Reproduce el mensaje de voz
         document.getElementById('audioVoz').play();
     }
 
@@ -277,30 +267,11 @@
             const h = document.createElement('div');
             h.className = 'heart'; h.innerText = '💜';
             h.style.left = Math.random() * 80 + 10 + '%';
-            h.onclick = () => { 
-                h.remove(); 
-                document.getElementById('score').innerText = parseInt(document.getElementById('score').innerText)+1; 
-            };
+            h.onclick = () => { h.remove(); document.getElementById('score').innerText = parseInt(document.getElementById('score').innerText)+1; };
             document.body.appendChild(h);
             count++; if(count > 20) clearInterval(game);
             setTimeout(() => h.remove(), 3000);
         }, 400);
-    }
-
-    function addMessage() {
-        const name = document.getElementById('userName').value;
-        const msg = document.getElementById('userMsg').value;
-        if(name && msg) {
-            const entry = document.createElement('div');
-            entry.className = 'wall-entry';
-            entry.innerHTML = `<b>${name}:</b> ${msg}`;
-            const wall = document.getElementById('msgWall');
-            wall.prepend(entry);
-            document.getElementById('userName').value = "";
-            document.getElementById('userMsg').value = "";
-        } else {
-            alert("¡Escribe tu nombre y el mensaje!");
-        }
     }
 
     function finalSequence() {
@@ -327,3 +298,4 @@
 </script>
 </body>
 </html>
+  
