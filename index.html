@@ -6,207 +6,203 @@
     <title>CASTILLO 💜 ULTRA</title>
     <style>
         :root {
-            --primary: #ff00ff;
+            --primary: #bc13fe;
             --secondary: #00ffff;
-            --dark: #000000;
         }
 
-        body, html {
+        * { box-sizing: border-box; }
+
+        body {
             margin: 0;
             padding: 0;
+            background: #000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Bloquea el scroll manual */
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* SISTEMA DE PANTALLAS */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Evita scroll manual */
-            background-color: var(--dark);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
-
-        /* Contenedor que limita la vista */
-        #viewport {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Lienzo largo que se mueve */
-        #canvas {
-            width: 100%;
-            height: 500vh; /* 5 pantallas */
-            transition: transform 0.7s cubic-bezier(0.6, 0.1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .screen {
-            width: 100vw;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
-            text-align: center;
             padding: 20px;
-            box-sizing: border-box;
+            text-align: center;
+            transform: translateY(100%); /* Todas ocultas abajo */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #000;
+            z-index: 10;
         }
 
+        .screen.active {
+            transform: translateY(0); /* La pantalla activa sube */
+            z-index: 20;
+        }
+
+        /* EFECTOS VISUALES */
         .neon {
-            font-size: 3rem;
+            font-size: 2.5rem;
+            text-transform: uppercase;
             color: #fff;
             text-shadow: 0 0 10px var(--primary), 0 0 20px var(--secondary);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         button {
-            padding: 15px 30px;
+            padding: 15px 25px;
             margin: 10px;
-            border-radius: 50px;
             border: none;
+            border-radius: 12px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
             font-weight: bold;
-            text-transform: uppercase;
+            font-size: 1rem;
             cursor: pointer;
-            z-index: 100; /* Siempre encima */
+            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.4);
         }
 
-        button:active { transform: scale(0.9); }
+        button:active { transform: scale(0.95); }
 
+        /* GALERÍA */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .gallery img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+        }
+
+        /* JUEGO */
         .heart {
             position: absolute;
             font-size: 35px;
+            z-index: 100;
             cursor: pointer;
-            z-index: 50;
-            user-select: none;
-            animation: fall linear forwards;
+            animation: fall 3s linear forwards;
         }
 
         @keyframes fall {
-            from { top: -10%; transform: rotate(0deg); }
-            to { top: 110%; transform: rotate(360deg); }
+            from { top: -10%; }
+            to { top: 110%; }
         }
 
-        img {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
-            margin: 5px;
-            border-radius: 15px;
-            border: 2px solid var(--secondary);
-        }
-
-        #msg-output {
-            margin: 20px;
-            height: 25px;
+        #msg-display {
+            height: 30px;
             color: var(--secondary);
             font-weight: bold;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
 
-<div id="viewport">
-    <div id="canvas">
-        
-        <section class="screen">
-            <h1 class="neon">CASTILLO 💜</h1>
-            <button onclick="move(1)">INICIAR</button>
-        </section>
-
-        <section class="screen">
-            <h2>¿Cómo eres hoy? 😏</h2>
-            <div>
-                <button onclick="showMsg('futbol')">⚽</button>
-                <button onclick="showMsg('fun')">😂</button>
-                <button onclick="showMsg('mad')">😡</button>
-            </div>
-            <p id="msg-output"></p>
-            <button onclick="move(2)">SIGUIENTE</button>
-        </section>
-
-        <section class="screen">
-            <h2>🎮 ATRAPA LOS 💜</h2>
-            <p>Puntos: <span id="score">0</span></p>
-            <button id="btn-play" onclick="spawnHearts()">JUGAR</button>
-            <button onclick="move(3)">SIGUIENTE</button>
-        </section>
-
-        <section class="screen">
-            <h2>📸 RECUERDOS</h2>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-                <img src="miko1.png" onerror="this.src='https://via.placeholder.com/150?text=Foto+1'">
-                <img src="miko2-png" onerror="this.src='https://via.placeholder.com/150?text=Foto+2'">
-                <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150?text=Foto+3'">
-            </div>
-            <button onclick="document.getElementById('voz').play()">🎤 ESCUCHAR</button>
-            <button onclick="showFinal()">FINAL</button>
-        </section>
-
-        <section class="screen">
-            <h1 class="neon">PARA TI 💜</h1>
-            <p id="final-text" style="white-space: pre-line; font-size: 1.2rem;"></p>
-        </section>
-
+    <div class="screen active" id="s0">
+        <h1 class="neon">CASTILLO 💜</h1>
+        <button onclick="goTo(1)">INICIAR</button>
     </div>
-</div>
 
-<audio id="voz" src="mikoWassup.mp3"></audio>
+    <div class="screen" id="s1">
+        <h2>¿Cómo andas hoy? 😏</h2>
+        <div>
+            <button onclick="setMsg('⚽ América hasta la muerte 🔥')">⚽</button>
+            <button onclick="setMsg('😂 TikTokera profesional 💃')">😂</button>
+            <button onclick="setMsg('😡 Pero así eres única 😎')">😡</button>
+        </div>
+        <p id="msg-display"></p>
+        <button onclick="goTo(2)">SIGUIENTE</button>
+    </div>
+
+    <div class="screen" id="s2">
+        <h2>🎮 ATRAPA LOS ⚽</h2>
+        <p>Puntos: <span id="score">0</span></p>
+        <button id="play-btn" onclick="startHearts()">¡JUGAR!</button>
+        <button onclick="goTo(3)">SIGUIENTE</button>
+    </div>
+
+    <div class="screen" id="s3">
+        <h2>📸 RECUERDOS</h2>
+        <div class="gallery">
+            <img src="miko1.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/ffffff?text=FOTO+1'">
+            <img src="miko2.png" onerror="this.src='https://via.placeholder.com/150/00ffff/000000?text=FOTO+2'">
+            <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
+            <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/000000?text=FOTO+4'">
+        </div>
+        <button onclick="playAudio()">🎤 ESCUCHAR</button>
+        <button onclick="finalSequence()">FINAL</button>
+    </div>
+
+    <div class="screen" id="s4">
+        <h1 class="neon">PARA TI 💜</h1>
+        <p id="final-txt" style="white-space: pre-line; line-height: 1.5; font-size: 1.1rem;"></p>
+    </div>
+
+    <audio id="audio" src="mikoWassup.mp3"></audio>
 
 <script>
-    const canvas = document.getElementById('canvas');
+    function goTo(index) {
+        // Quitamos la clase active de todas las pantallas
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        // Se la ponemos a la pantalla objetivo
+        document.getElementById('s' + index).classList.add('active');
+    }
+
+    function setMsg(txt) {
+        document.getElementById('msg-display').innerText = txt;
+    }
+
     let score = 0;
-
-    function move(index) {
-        canvas.style.transform = `translateY(-${index * 100}vh)`;
-    }
-
-    function showMsg(type) {
-        const out = document.getElementById('msg-output');
-        if(type === 'futbol') out.innerText = "⚽ América hasta la muerte 🔥";
-        if(type === 'fun') out.innerText = "😂 TikTokera profesional 💃";
-        if(type === 'mad') out.innerText = "😡 ¡Pero así eres única! 😎";
-    }
-
-    function spawnHearts() {
-        document.getElementById('btn-play').style.display = 'none';
+    function startHearts() {
+        document.getElementById('play-btn').style.display = 'none';
         let count = 0;
-        const interval = setInterval(() => {
-            const h = document.createElement("div");
-            h.classList.add("heart");
-            h.innerText = "💜";
-            h.style.left = Math.random() * 85 + "vw";
-            h.style.animationDuration = (Math.random() * 2 + 2) + "s";
-            
-            h.onclick = () => {
-                score++;
-                document.getElementById("score").innerText = score;
-                h.remove();
-            };
-
+        const game = setInterval(() => {
+            const h = document.createElement('div');
+            h.className = 'heart';
+            h.innerText = '💜';
+            h.style.left = Math.random() * 80 + 10 + '%';
+            h.onclick = () => { score++; document.getElementById('score').innerText = score; h.remove(); };
             document.body.appendChild(h);
             count++;
-            if(count > 20) clearInterval(interval);
-            setTimeout(() => h.remove(), 4000);
+            if(count > 25) clearInterval(game);
+            setTimeout(() => h.remove(), 3000);
         }, 400);
     }
 
-    function showFinal() {
-        move(4);
-        const text = "Feliz cumpleaños 💜\n\nCASTILLO\n\nNo eres de abrazos...\npero eres de las personas más importantes en mi vida.\n\nGracias por todo.\n\nTe quiero un chingo 😎🔥";
+    function playAudio() {
+        const a = document.getElementById('audio');
+        a.play().catch(() => alert("¡Dale otra vez al botón para escuchar!"));
+    }
+
+    function finalSequence() {
+        goTo(4);
+        const texto = "Feliz cumpleaños 💜\n\nCASTILLO\n\nNo eres de abrazos...\npero eres de las personas más importantes en mi vida.\n\nGracias por todo.\n\nTe quiero un chingo 😎🔥";
         let i = 0;
-        const target = document.getElementById('final-text');
+        const target = document.getElementById('final-txt');
+        target.innerText = "";
         
-        function typing() {
-            if (i < text.length) {
-                target.innerText += text.charAt(i);
+        function type() {
+            if (i < texto.length) {
+                target.innerText += texto.charAt(i);
                 i++;
-                setTimeout(typing, 50);
+                setTimeout(type, 50);
             }
         }
-        typing();
+        setTimeout(type, 800);
     }
 </script>
-
 </body>
 </html>
