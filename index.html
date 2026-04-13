@@ -82,7 +82,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* SECCIÓN INGENIERO / DIVERTIDA */
         .engineer-footer {
             margin-top: 30px;
             background: rgba(0, 255, 255, 0.1);
@@ -99,7 +98,7 @@
             display: block;
             margin-top: 10px;
             color: #fff;
-            background: #e1306c; /* Color Instagram */
+            background: #e1306c; 
             padding: 8px 15px;
             text-decoration: none;
             border-radius: 5px;
@@ -145,7 +144,7 @@
 
     <div class="screen active" id="s0">
         <h1 class="neon-title">CASTILLO 💜</h1>
-        <button onclick="goTo(1)">EMPEZAR</button>
+        <button onclick="iniciarTodo()">EMPEZAR</button>
     </div>
 
     <div class="screen" id="s1">
@@ -173,30 +172,47 @@
             <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150/00ffff/000000?text=FOTO+2'">
             <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
         </div>
-        <button onclick="document.getElementById('audio').play()">🎤 ESCUCHAR</button>
+        <button onclick="reproducirVoz()">🎤 ESCUCHAR</button>
         <button onclick="finalSequence()">LO ÚLTIMO</button>
     </div>
 
     <div class="screen" id="s4">
-        <h1 class="neon-title" style="font-size: 2rem;">PARA TI 💜</h1>
+        <h1 class="neon-title" style="font-size: 2.5rem;">PARA TI 💜</h1>
         <div id="final-content" class="final-message-style"></div>
         
         <div class="engineer-footer" id="dev-block" style="display:none;">
             <div>> STATUS: Cumpleaños optimizado al 100%</div>
             <div>> DEV: El mejor hermano (Ing. en Sistemas)</div>
-            <div>> INFO: Si te gustó la página, el creador está soltero... digo, disponible para dudas.</div>
+            <div>> INFO: Si te gustó la página, el creador está disponible.</div>
             <a href="https://instagram.com/aaleex.castillo" target="_blank" class="ig-link">
                 📸 Sigue al Ing: @aaleex.castillo
             </a>
         </div>
     </div>
 
-    <audio id="audio" src="mikoWassup.mp3"></audio>
+    <audio id="mananitas" src="mananitas.mp3" loop></audio>
+    <audio id="audioVoz" src="mikoWassup.mp3"></audio>
 
 <script>
     function goTo(index) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('s' + index).classList.add('active');
+    }
+
+    function iniciarTodo() {
+        // Reproduce las mañanitas al entrar
+        document.getElementById('mananitas').play();
+        goTo(1);
+    }
+
+    function reproducirVoz() {
+        // Pausa las mañanitas para que no se encimen
+        const mariachi = document.getElementById('mananitas');
+        mariachi.pause();
+        mariachi.currentTime = 0; // Reinicia el mariachi por si acaso
+        
+        // Reproduce el mensaje de voz
+        document.getElementById('audioVoz').play();
     }
 
     function setMsg(txt) { document.getElementById('msg-display').innerText = txt; }
@@ -220,7 +236,7 @@
         const container = document.getElementById('final-content');
         container.innerHTML = "";
 
-        const fullText = "¡Feliz Cumpleaños! 💜\n\nCASTILLO\n\nSé que no eres de abrazos, pero eres de las personas más importantes en mi vida.\n\nGracias por todo lo compartido.\n\nTe quiero un chingo 😎🔥";
+        const fullText = "¡Feliz Cumpleaños! 💜\n\nCASTILLO\n\nSé que no eres de muchos abrazos, pero eres de las personas más importantes en mi vida.\n\nGracias por todo lo compartido.\n\nTe quiero un chingo 😎🔥";
 
         let i = 0;
         function type() {
@@ -229,7 +245,6 @@
                 i++;
                 setTimeout(type, 50);
             } else {
-                // Cuando termina de escribir, aparece el bloque del hermano
                 setTimeout(() => {
                     document.getElementById('dev-block').style.display = 'block';
                 }, 1000);
