@@ -158,3 +158,80 @@
 
 <script>
     let score = 0;
+    const mainView = document.getElementById('main-view');
+
+    function next(index) {
+        mainView.style.transform = `translateY(-${index * 100}vh)`;
+    }
+
+    function msg(tipo) {
+        const t = {
+            'futbol': "⚽ ¡Eso! América hasta la muerte 🔥",
+            'divertida': "😂 La más TikTokera y divertida 💃",
+            'enojona': "😡 Ni aguantas nada... ¡pero así te quiero! 😎"
+        };
+        document.getElementById("texto-dinamico").innerText = t[tipo];
+    }
+
+    function startGame() {
+        score = 0;
+        document.getElementById("score").innerText = score;
+        document.getElementById("start-btn").style.display = "none";
+        
+        let timeLeft = 10; // 10 segundos de juego
+        
+        const gameInterval = setInterval(() => {
+            createHeart();
+        }, 400);
+
+        setTimeout(() => {
+            clearInterval(gameInterval);
+            document.getElementById("next-game").style.display = "block";
+        }, 10000);
+    }
+
+    function createHeart() {
+        const h = document.createElement("div");
+        h.classList.add("heart");
+        h.innerText = "💜";
+        h.style.left = Math.random() * 90 + "vw";
+        h.style.top = "-50px";
+        h.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+
+        h.onclick = () => {
+            score++;
+            document.getElementById("score").innerText = score;
+            h.remove();
+        };
+
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 4000);
+    }
+
+    function playVoice() {
+        const audio = document.getElementById("voz");
+        audio.play().catch(e => alert("Dale play de nuevo para escuchar"));
+    }
+
+    function final() {
+        next(4);
+        const txt = "¡Feliz Cumpleaños!\n\nCASTILLO\n\nTal vez no seas de muchos abrazos...\npero eres de las personas más importantes en mi vida.\n\nGracias por ser tú.\n\nTe quiero un chingo 😎🔥";
+        
+        // Efecto de escritura simple
+        let i = 0;
+        const target = document.getElementById("finalText");
+        target.innerText = "";
+        
+        function typing() {
+            if (i < txt.length) {
+                target.innerText += txt.charAt(i);
+                i++;
+                setTimeout(typing, 50);
+            }
+        }
+        typing();
+    }
+</script>
+
+</body>
+</html>
