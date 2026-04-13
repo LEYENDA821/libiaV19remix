@@ -1,259 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CASTILLO 19 REMIX</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --miko-pink: #ff007f;
-            --rayados-blue: #002d5d;
-            --white: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para la mejor hermana 💙</title>
 
-        body {
-            margin: 0;
-            background: #050505;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
 
-        /* Fondo de malla animada */
-        #bg-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-        }
+.container {
+    padding: 30px;
+}
 
-        .content {
-            width: 100%;
-            max-width: 400px;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
+h1 {
+    font-size: 2.5em;
+    animation: fadeIn 2s;
+}
 
-        .header-section h1 {
-            font-size: 4rem;
-            margin: 0;
-            background: linear-gradient(to bottom, var(--white), var(--miko-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            letter-spacing: -2px;
-        }
+button {
+    padding: 15px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 12px;
+    background: #00c6ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        .nickname {
-            letter-spacing: 5px;
-            color: var(--miko-pink);
-            font-weight: bold;
-            margin-top: -10px;
-            display: block;
-        }
+button:hover {
+    transform: scale(1.1);
+    background: #0072ff;
+}
 
-        /* Tarjeta Estilo Cromo de Fútbol */
-        .player-card {
-            position: relative;
-            width: 280px;
-            height: 380px;
-            margin: 30px auto;
-            background: linear-gradient(135deg, var(--rayados-blue), #000);
-            border-radius: 20px;
-            border: 3px solid var(--white);
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+.hidden {
+    display: none;
+}
 
-        .player-card:active {
-            transform: scale(0.95) rotate(2deg);
-        }
+.card {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    animation: pop 0.5s;
+}
 
-        .player-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 
-        .card-stats {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0, 45, 93, 0.9);
-            padding: 15px 0;
-            backdrop-filter: blur(5px);
-        }
+@keyframes pop {
+    from {transform: scale(0.5);}
+    to {transform: scale(1);}
+    .tiktok {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
 
-        /* Reproductor Estilo Neón */
-        .music-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 20px;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-        }
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 5s infinite;
+}
 
-        .play-trigger {
-            background: var(--white);
-            color: black;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--white);
-        }
-
-        .bars-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 30px;
-        }
-
-        .bar {
-            width: 6px;
-            background: var(--miko-pink);
-            height: 10%;
-            border-radius: 3px;
-        }
-
-        .animating .bar {
-            animation: bounce 0.8s ease-in-out infinite alternate;
-        }
-
-        @keyframes bounce {
-            0% { height: 10%; }
-            100% { height: 100%; }
-        }
-
-        .footer-msg {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            margin-top: 40px;
-            line-height: 1.5;
-        }
-
-    </style>
+@keyframes float {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-50px);}
+    100% {transform: translateY(0);}
+}
+</style>
 </head>
+
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+<div class="container">
 
-    <div class="content">
-        <div class="header-section">
-            <h1>19</h1>
-            <span class="nickname">CASTILLO REMIX</span>
-        </div>
+<h1>🎉 Para mi hermana favorita 🎉</h1>
 
-        <div class="player-card" onclick="triggerConfetti()">
-            <img src="https://oncediario.com/images/notas/2024/07/katty-martinez-rayadas-presentacion.jpg" alt="Katty Killer">
-            <div class="card-stats">
-                <div style="font-weight: 800; font-size: 1.2rem;">KATTY KILLER MODE</div>
-                <div style="font-size: 0.7rem; letter-spacing: 2px;">TOP SCORER • BDAY GIRL</div>
-            </div>
-        </div>
+<p>Presiona para empezar tu experiencia 😏👇</p>
 
-        <div class="music-box" id="musicBox">
-            <div style="text-align: left;">
-                <div style="font-size: 0.8rem; opacity: 0.7;">NOW PLAYING</div>
-                <div style="font-weight: bold; color: var(--miko-pink);">YOUNG MIKO MIX</div>
-            </div>
-            
-            <button class="play-trigger" onclick="toggleMusic()" id="btnPlay">▶</button>
+<button onclick="start()">INICIAR</button>
 
-            <div class="bars-container" id="visualizer">
-                <div class="bar" style="animation-delay: 0.1s"></div>
-                <div class="bar" style="animation-delay: 0.3s"></div>
-                <div class="bar" style="animation-delay: 0.2s"></div>
-                <div class="bar" style="animation-delay: 0.4s"></div>
-            </div>
-        </div>
+<div id="game" class="hidden">
 
-        <p class="footer-msg">
-            Diseñado para la mejor futbolista.<br>
-            Toca la carta para celebrar el gol.
-        </p>
-    </div>
+    <h2>Escoge una opción 👇</h2>
 
-    <audio id="track" loop>
-        <source src="mikoWassup.mp3" type="audio/mpeg">
-    </audio>
+    <button onclick="option1()">⚽ Futbolera</button>
+    <button onclick="option2()">😂 Divertida</button>
+    <button onclick="option3()">😡 Enojona</button>
 
-    <script>
-        const audio = document.getElementById('track');
-        const btn = document.getElementById('btnPlay');
-        const visualizer = document.getElementById('musicBox');
+</div>
 
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play().catch(e => alert("Sube el archivo musica.mp3 a tu GitHub para que suene."));
-                btn.innerText = "⏸";
-                visualizer.classList.add('animating');
-                triggerConfetti();
-            } else {
-                audio.pause();
-                btn.innerText = "▶";
-                visualizer.classList.remove('animating');
-            }
-        }
+<div id="result" class="card hidden"></div>
 
-        function triggerConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.7 },
-                colors: ['#ff007f', '#ffffff', '#002d5d']
-            });
-        }
+<div id="final" class="hidden">
+    <h2>🎁 Desbloqueaste algo especial...</h2>
+    <p id="mensajeFinal"></p>
+</div>
 
-        // Fondo Estrellas Dinámicas
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
+</div>
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-        window.onresize = resize;
-        resize();
+<script>
 
-        for(let i=0; i<100; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                r: Math.random() * 1.5,
-                d: Math.random() * 10
-            });
-        }
+let clicks = 0;
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "white";
-            stars.forEach(s => {
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-                ctx.fill();
-                s.y += 0.2;
-                if(s.y > canvas.height) s.y = 0;
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
+function start() {
+    document.getElementById("game").classList.remove("hidden");
+    document.getElementById("music").play();
+}
+
+function option1() {
+    showMessage("⚽ Obvio... fan del América 😎🔥\nEres intensa pero crack 💙");
+}
+
+function option2() {
+    showMessage("😂 La más divertida... aunque te pases a veces 🤣");
+}
+
+function option3() {
+    showMessage("😡 Enojona... pero te queremos así 💀");
+}
+
+function showMessage(text) {
+    clicks++;
+
+    let result = document.getElementById("result");
+    result.innerText = text;
+    result.classList.remove("hidden");
+
+    createEffect();
+
+    if(clicks >= 3){
+        unlockFinal();
+    }
+}
+
+function unlockFinal(){
+    document.getElementById("final").classList.remove("hidden");
+
+    document.getElementById("mensajeFinal").innerText =
+    "Feliz cumpleaños 💙\n\nAunque no seas de abrazos...\nEres de las personas más importantes para mí.\n\nGracias por todo lo que vivimos juntos 🫶\n\nTe quiero un chingo 😎🔥";
+}
+
+function createEffect(){
+    for(let i=0;i<10;i++){
+        let circle = document.createElement("div");
+        circle.classList.add("circle");
+        circle.style.width = Math.random()*20 + "px";
+        circle.style.height = circle.style.width;
+        circle.style.background = "rgba(255,255,255,0.3)";
+        circle.style.top = Math.random()*100 + "%";
+        circle.style.left = Math.random()*100 + "%";
+
+        document.body.appendChild(circle);
+
+        setTimeout(()=>{ circle.remove(); }, 5000);
+    }
+}
+
+</script>
+
 </body>
 </html>
+}
