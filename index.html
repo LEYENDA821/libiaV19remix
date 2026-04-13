@@ -165,7 +165,7 @@
         <button onclick="goTo(3)" style="background:none; border: 1px solid white;">CONTINUAR</button>
     </div>
 
-  <div class="screen" id="s3">
+    <div class="screen" id="s3">
         <h2 style="font-family:'Bebas Neue'; font-size: 2.5rem;">📸 RECUERDOS</h2>
         <div class="gallery">
             <img src="miko2.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/ffffff?text=FOTO+1'">
@@ -173,23 +173,7 @@
             <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
         </div>
         <button onclick="reproducirVoz()">🎤 ESCUCHAR</button>
-        <button onclick="goTo(5)">CONTINUAR</button>
-    </div>
-
-    <div class="screen" id="s5">
-        <h2 style="font-family:'Bebas Neue'; font-size: 2.2rem;">DEJA TU MENSAJE 💜</h2>
-        
-        <div class="message-form">
-            <input type="text" id="guestName" class="message-input" placeholder="Tu nombre...">
-            <textarea id="guestMsg" class="message-input" placeholder="Escribe tu felicitación..." rows="2"></textarea>
-            <button onclick="saveMessage()" style="padding: 10px; font-size: 0.8rem;">PUBLICAR MENSAJE</button>
-        </div>
-
-        <div class="wall-container" id="messageWall">
-            <div class="post-it"><b>Ing. Alex:</b> ¡Felicidades Castillo! Disfruta tu día. 🎉</div>
-        </div>
-
-        <button onclick="finalSequence()" style="background:none; border: 1px solid white; margin-top: 15px;">VER CARTA FINAL</button>
+        <button onclick="finalSequence()">LO ÚLTIMO</button>
     </div>
 
     <div class="screen" id="s4">
@@ -199,8 +183,77 @@
         <div class="engineer-footer" id="dev-block" style="display:none;">
             <div>> STATUS: Cumpleaños optimizado al 100%</div>
             <div>> DEV: El mejor hermano (Ing. en Sistemas)</div>
+            <div>> INFO: Si te gustó la página, el creador está soltero y disponible.</div>
             <a href="https://instagram.com/aaleex.castillo" target="_blank" class="ig-link">
-                📸 @aaleex.castillo
+                📸 Sigue al Ing: @aaleex.castillo
             </a>
         </div>
     </div>
+
+    <audio id="mananitas" src="mananitas.mp3" loop></audio>
+    <audio id="audioVoz" src="mikoWassup.mp3"></audio>
+
+<script>
+    function goTo(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('s' + index).classList.add('active');
+    }
+
+    function iniciarTodo() {
+        // Reproduce las mañanitas al entrar
+        document.getElementById('mananitas').play();
+        goTo(1);
+    }
+
+    function reproducirVoz() {
+        // Pausa las mañanitas para que no se encimen
+        const mariachi = document.getElementById('mananitas');
+        mariachi.pause();
+        mariachi.currentTime = 0; // Reinicia el mariachi por si acaso
+        
+        // Reproduce el mensaje de voz
+        document.getElementById('audioVoz').play();
+    }
+
+    function setMsg(txt) { document.getElementById('msg-display').innerText = txt; }
+
+    function startHearts() {
+        document.getElementById('play-btn').style.display = 'none';
+        let count = 0;
+        const game = setInterval(() => {
+            const h = document.createElement('div');
+            h.className = 'heart'; h.innerText = '💜';
+            h.style.left = Math.random() * 80 + 10 + '%';
+            h.onclick = () => { h.remove(); document.getElementById('score').innerText = parseInt(document.getElementById('score').innerText)+1; };
+            document.body.appendChild(h);
+            count++; if(count > 20) clearInterval(game);
+            setTimeout(() => h.remove(), 3000);
+        }, 400);
+    }
+
+    function finalSequence() {
+        goTo(4);
+        const container = document.getElementById('final-content');
+        container.innerHTML = "";
+
+        const fullText = "¡Feliz Cumpleaños! 💜\n\nCASTILLO\n\nSé que no eres de muchos abrazos, pero eres de las personas más importantes en mi vida.\n\nGracias por todo lo compartido.\n\nTe quiero un chingo 😎🔥";
+
+        let i = 0;
+        function type() {
+            if (i < fullText.length) {
+                container.textContent += fullText.charAt(i);
+                i++;
+                setTimeout(type, 50);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('dev-block').style.display = 'block';
+                }, 1000);
+            }
+        }
+        setTimeout(type, 800);
+    }
+</script>
+</body>
+</html>
+
+
