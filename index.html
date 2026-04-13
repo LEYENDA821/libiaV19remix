@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PARA TI 💜 CASTILLO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-neon: #bc13fe;
@@ -25,7 +25,6 @@
             height: 100vh;
         }
 
-        /* FONDO YOUNG MIKO */
         .background-overlay {
             position: fixed;
             top: 0;
@@ -71,18 +70,48 @@
             margin-bottom: 20px;
         }
 
-        /* TEXTO FINAL CORREGIDO */
         .final-message-style {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            line-height: 1.8;
+            line-height: 1.6;
             color: #ffffff;
-            /* Forzamos separación */
             word-spacing: 4px; 
             letter-spacing: 0.5px;
-            white-space: pre-wrap; /* Mantiene espacios y saltos de línea */
+            white-space: pre-wrap;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* SECCIÓN INGENIERO / DIVERTIDA */
+        .engineer-footer {
+            margin-top: 30px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--secondary-neon);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--secondary-neon);
+            max-width: 90%;
+        }
+
+        .ig-link {
+            display: block;
+            margin-top: 10px;
+            color: #fff;
+            background: #e1306c; /* Color Instagram */
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 48, 108, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(225, 48, 108, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 48, 108, 0); }
         }
 
         button {
@@ -99,7 +128,7 @@
         }
 
         .gallery img {
-            width: 120px; height: 120px;
+            width: 100px; height: 100px;
             object-fit: cover;
             border-radius: 10px;
             border: 2px solid var(--secondary-neon);
@@ -144,13 +173,22 @@
             <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150/00ffff/000000?text=FOTO+2'">
             <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
         </div>
-        <button onclick="document.getElementById('audio').play()">🎤 Play</button>
+        <button onclick="document.getElementById('audio').play()">🎤 ESCUCHAR</button>
         <button onclick="finalSequence()">LO ÚLTIMO</button>
     </div>
 
     <div class="screen" id="s4">
-        <h1 class="neon-title" style="font-size: 2.5rem;">PARA TI 💜</h1>
+        <h1 class="neon-title" style="font-size: 2rem;">PARA TI 💜</h1>
         <div id="final-content" class="final-message-style"></div>
+        
+        <div class="engineer-footer" id="dev-block" style="display:none;">
+            <div>> STATUS: Cumpleaños optimizado al 100%</div>
+            <div>> DEV: El mejor hermano (Ing. en Sistemas)</div>
+            <div>> INFO: Si te gustó la página, el creador está soltero... digo, disponible para dudas.</div>
+            <a href="https://instagram.com/aaleex.castillo" target="_blank" class="ig-link">
+                📸 Sigue al Ing: @aaleex.castillo
+            </a>
+        </div>
     </div>
 
     <audio id="audio" src="mikoWassup.mp3"></audio>
@@ -182,16 +220,19 @@
         const container = document.getElementById('final-content');
         container.innerHTML = "";
 
-        // Texto con espacios explícitos
-        const fullText = "¡Feliz Cumpleaños! 💜\n\nCASTILLO\n\nSé que no eres de muchos abrazos, pero eres de las personas más importantes en mi vida.\n\nGracias por todo lo compartido.\n\nTe quiero un chingo 😎🔥";
+        const fullText = "¡Feliz Cumpleaños! 💜\n\nCASTILLO\n\nSé que no eres de abrazos, pero eres de las personas más importantes en mi vida.\n\nGracias por todo lo compartido.\n\nTe quiero un chingo 😎🔥";
 
         let i = 0;
         function type() {
             if (i < fullText.length) {
-                // Insertamos el carácter
                 container.textContent += fullText.charAt(i);
                 i++;
                 setTimeout(type, 50);
+            } else {
+                // Cuando termina de escribir, aparece el bloque del hermano
+                setTimeout(() => {
+                    document.getElementById('dev-block').style.display = 'block';
+                }, 1000);
             }
         }
         setTimeout(type, 800);
