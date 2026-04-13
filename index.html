@@ -1,185 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CASTILLO 💜 ULTRA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASTILLO 💜 ULTRA</title>
+    <style>
+        :root {
+            --primary: #ff00ff;
+            --secondary: #00ffff;
+            --bg: #0a0a0a;
+        }
 
-<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: white;
+            overflow: hidden; /* Evita scroll no deseado */
+        }
 
-body {
-    margin: 0;
-    font-family: Arial;
-    background: black;
-    color: white;
-    overflow: hidden;
-}
+        /* Contenedor Principal para el Swipe */
+        #main-view {
+            height: 100vh;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
 
-/* PANTALLAS */
-.screen {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    transition: 0.5s;
-}
+        .screen {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-/* NEON */
-.neon {
-    font-size: 3em;
-    text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
-}
+        /* Estilos de Texto */
+        .neon {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary), 0 0 20px var(--secondary);
+            margin-bottom: 20px;
+        }
 
-/* BOTONES */
-button {
-    padding: 15px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(45deg,#ff00ff,#00ffff);
-    color: white;
-    font-size: 16px;
-}
+        h2 { font-size: 1.8rem; margin-bottom: 20px; }
 
-/* SWIPE */
-#screen2 {top: 100%;}
-#screen3 {top: 200%;}
-#screen4 {top: 300%;}
+        /* Botones Mejorados */
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
+        }
 
-/* JUEGO */
-.heart {
-    position: absolute;
-    font-size: 30px;
-    animation: fall linear;
-}
+        button:active { transform: scale(0.95); }
 
-@keyframes fall {
-    from {top:-10%;}
-    to {top:110%;}
-}
+        /* Juego */
+        .heart {
+            position: absolute;
+            font-size: 40px;
+            cursor: pointer;
+            user-select: none;
+            z-index: 10;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
 
-/* GALERIA */
-img {
-    width: 150px;
-    margin: 10px;
-    border-radius: 10px;
-}
+        @keyframes fall {
+            from { transform: translateY(-10vh) rotate(0deg); }
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
 
-</style>
+        /* Galería Responsiva */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid var(--secondary);
+        }
+
+        #texto-dinamico {
+            height: 30px;
+            margin: 15px 0;
+            font-style: italic;
+            color: var(--secondary);
+        }
+
+    </style>
 </head>
-
 <body>
 
-<!-- SCREEN 1 -->
-<div class="screen" id="screen1">
-    <h1 class="neon">CASTILLO 💜</h1>
-    <button onclick="next()">INICIAR</button>
+<div id="main-view">
+    <section class="screen">
+        <h1 class="neon">CASTILLO 💜</h1>
+        <button onclick="next(1)">ENTRAR AQUÍ</button>
+    </section>
+
+    <section class="screen">
+        <h2>¿Cómo te sientes hoy? 😏</h2>
+        <div>
+            <button onclick="msg('futbol')">⚽</button>
+            <button onclick="msg('divertida')">😂</button>
+            <button onclick="msg('enojona')">😡</button>
+        </div>
+        <p id="texto-dinamico"></p>
+        <button onclick="next(2)" style="background: none; border: 1px solid white;">SIGUIENTE</button>
+    </section>
+
+    <section class="screen">
+        <h2>🎮 ATRAPA LOS 💜</h2>
+        <p>Puntos: <span id="score">0</span></p>
+        <div id="game-container" style="height: 50px;">
+             <button id="start-btn" onclick="startGame()">¡JUGAR!</button>
+        </div>
+        <button onclick="next(3)" id="next-game" style="display:none">CONTINUAR</button>
+    </section>
+
+    <section class="screen">
+        <h2>📸 RECUERDOS</h2>
+        <div class="gallery">
+            <img src="miko1.png" alt="Recuerdo 1">
+            <img src="miko2.png" alt="Recuerdo 2">
+            <img src="miko3.png" alt="Recuerdo 3">
+            <img src="miko4.png" alt="Recuerdo 4">
+        </div>
+        <button onclick="playVoice()">🎤 ESCUCHAR MENSAJE</button>
+        <button onclick="final()">FINALIZAR</button>
+    </section>
+
+    <section class="screen">
+        <h1 class="neon">PARA TI 💜</h1>
+        <p id="finalText" style="white-space: pre-line; line-height: 1.6; padding: 0 20px;"></p>
+    </section>
 </div>
 
-<!-- SCREEN 2 -->
-<div class="screen" id="screen2">
-    <h2>¿Cómo eres? 😏</h2>
-    <button onclick="msg('futbol')">⚽</button>
-    <button onclick="msg('divertida')">😂</button>
-    <button onclick="msg('enojona')">😡</button>
-    <p id="texto"></p>
-    <button onclick="next()">SIGUIENTE</button>
-</div>
-
-<!-- SCREEN 3 JUEGO -->
-<div class="screen" id="screen3">
-    <h2>🎮 ATRAPA 💜</h2>
-    <p>Puntos: <span id="score">0</span></p>
-    <button onclick="startGame()">JUGAR</button>
-    <button onclick="next()">SIGUIENTE</button>
-</div>
-
-<!-- SCREEN 4 GALERIA -->
-<div class="screen" id="screen4">
-    <h2>📸 RECUERDOS</h2>
-
-    <img src="miko1.png">
-    <img src="miko2.png">
-    <img src="miko3.png">
-    <img src="miko4.png">
-
-
-    <button onclick="playVoice()">🎤 ESCUCHAR</button>
-    <button onclick="final()">FINAL</button>
-</div>
-
-<!-- FINAL -->
-<div class="screen" id="screen5" style="top:400%">
-    <h1 class="neon">💜 CASTILLO 💜</h1>
-    <p id="finalText"></p>
-</div>
-
-<audio id="voz" src="voz.mp3"></audio>
+<audio id="voz" src="mikoWassup.mp3"></audio>
 
 <script>
-
-let current = 0;
-let score = 0;
-
-/* SWIPE SIMULADO */
-function next(){
-    current++;
-    document.body.style.transform = "translateY(-"+(current*100)+"vh)";
-}
-
-/* MENSAJES */
-function msg(tipo){
-    let t = "";
-
-    if(tipo=="futbol") t="⚽ América hasta la muerte 🔥";
-    if(tipo=="divertida") t="😂 TikTokera profesional 💃";
-    if(tipo=="enojona") t="😡 pero así eres única 😎";
-
-    document.getElementById("texto").innerText = t;
-}
-
-/* JUEGO PRO */
-function startGame(){
-    score = 0;
-    document.getElementById("score").innerText = score;
-
-    for(let i=0;i<15;i++){
-        let h = document.createElement("div");
-        h.classList.add("heart");
-        h.innerText="💜";
-
-        h.style.left = Math.random()*100+"%";
-        h.style.animationDuration = (Math.random()*3+2)+"s";
-
-        h.onclick = ()=>{
-            score++;
-            document.getElementById("score").innerText = score;
-            h.remove();
-        };
-
-        document.body.appendChild(h);
-
-        setTimeout(()=>h.remove(),5000);
-    }
-}
-
-/* VOZ */
-function playVoice(){
-    document.getElementById("voz").play();
-}
-
-/* FINAL CINEMATICO */
-function final(){
-    next();
-
-    document.getElementById("finalText").innerText =
-    "Feliz cumpleaños 💜\n\nCASTILLO\n\nNo eres de abrazos...\npero eres de las personas más importantes en mi vida.\n\nGracias por todo.\n\nTe quiero un chingo 😎🔥";
-}
-
-</script>
-
-</body>
-</html>
+    let score = 0;
