@@ -3,177 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para la mejor hermana 💙</title>
+<title>CASTILLO 💜 ULTRA</title>
 
 <style>
+
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: Arial;
+    background: black;
     color: white;
-    text-align: center;
     overflow: hidden;
 }
 
-.container {
-    padding: 30px;
+/* PANTALLAS */
+.screen {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.5s;
 }
 
-h1 {
-    font-size: 2.5em;
-    animation: fadeIn 2s;
+/* NEON */
+.neon {
+    font-size: 3em;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
 }
 
+/* BOTONES */
 button {
-    padding: 15px 25px;
+    padding: 15px;
     margin: 10px;
+    border-radius: 10px;
     border: none;
-    border-radius: 12px;
-    background: #00c6ff;
+    background: linear-gradient(45deg,#ff00ff,#00ffff);
     color: white;
     font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.1);
-    background: #0072ff;
-}
+/* SWIPE */
+#screen2 {top: 100%;}
+#screen3 {top: 200%;}
+#screen4 {top: 300%;}
 
-.hidden {
-    display: none;
-}
-
-.card {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    animation: pop 0.5s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-@keyframes pop {
-    from {transform: scale(0.5);}
-    to {transform: scale(1);}
-    .tiktok {
+/* JUEGO */
+.heart {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    font-size: 30px;
+    animation: fall linear;
 }
 
-.circle {
-    position: absolute;
-    border-radius: 50%;
-    animation: float 5s infinite;
+@keyframes fall {
+    from {top:-10%;}
+    to {top:110%;}
 }
 
-@keyframes float {
-    0% {transform: translateY(0);}
-    50% {transform: translateY(-50px);}
-    100% {transform: translateY(0);}
+/* GALERIA */
+img {
+    width: 150px;
+    margin: 10px;
+    border-radius: 10px;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<h1>🎉 Para mi hermana favorita 🎉</h1>
-
-<p>Presiona para empezar tu experiencia 😏👇</p>
-
-<button onclick="start()">INICIAR</button>
-
-<div id="game" class="hidden">
-
-    <h2>Escoge una opción 👇</h2>
-
-    <button onclick="option1()">⚽ Futbolera</button>
-    <button onclick="option2()">😂 Divertida</button>
-    <button onclick="option3()">😡 Enojona</button>
-
+<!-- SCREEN 1 -->
+<div class="screen" id="screen1">
+    <h1 class="neon">CASTILLO 💜</h1>
+    <button onclick="next()">INICIAR</button>
 </div>
 
-<div id="result" class="card hidden"></div>
-
-<div id="final" class="hidden">
-    <h2>🎁 Desbloqueaste algo especial...</h2>
-    <p id="mensajeFinal"></p>
+<!-- SCREEN 2 -->
+<div class="screen" id="screen2">
+    <h2>¿Cómo eres? 😏</h2>
+    <button onclick="msg('futbol')">⚽</button>
+    <button onclick="msg('divertida')">😂</button>
+    <button onclick="msg('enojona')">😡</button>
+    <p id="texto"></p>
+    <button onclick="next()">SIGUIENTE</button>
 </div>
 
+<!-- SCREEN 3 JUEGO -->
+<div class="screen" id="screen3">
+    <h2>🎮 ATRAPA 💜</h2>
+    <p>Puntos: <span id="score">0</span></p>
+    <button onclick="startGame()">JUGAR</button>
+    <button onclick="next()">SIGUIENTE</button>
 </div>
 
-<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+<!-- SCREEN 4 GALERIA -->
+<div class="screen" id="screen4">
+    <h2>📸 RECUERDOS</h2>
+
+    <img src="miko1.png">
+    <img src="miko2.png">
+    <img src="miko3.png">
+    <img src="miko4.png">
+
+
+    <button onclick="playVoice()">🎤 ESCUCHAR</button>
+    <button onclick="final()">FINAL</button>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="screen5" style="top:400%">
+    <h1 class="neon">💜 CASTILLO 💜</h1>
+    <p id="finalText"></p>
+</div>
+
+<audio id="voz" src="voz.mp3"></audio>
 
 <script>
 
-let clicks = 0;
+let current = 0;
+let score = 0;
 
-function start() {
-    document.getElementById("game").classList.remove("hidden");
-    document.getElementById("music").play();
+/* SWIPE SIMULADO */
+function next(){
+    current++;
+    document.body.style.transform = "translateY(-"+(current*100)+"vh)";
 }
 
-function option1() {
-    showMessage("⚽ Obvio... fan del América 😎🔥\nEres intensa pero crack 💙");
+/* MENSAJES */
+function msg(tipo){
+    let t = "";
+
+    if(tipo=="futbol") t="⚽ América hasta la muerte 🔥";
+    if(tipo=="divertida") t="😂 TikTokera profesional 💃";
+    if(tipo=="enojona") t="😡 pero así eres única 😎";
+
+    document.getElementById("texto").innerText = t;
 }
 
-function option2() {
-    showMessage("😂 La más divertida... aunque te pases a veces 🤣");
-}
+/* JUEGO PRO */
+function startGame(){
+    score = 0;
+    document.getElementById("score").innerText = score;
 
-function option3() {
-    showMessage("😡 Enojona... pero te queremos así 💀");
-}
+    for(let i=0;i<15;i++){
+        let h = document.createElement("div");
+        h.classList.add("heart");
+        h.innerText="💜";
 
-function showMessage(text) {
-    clicks++;
+        h.style.left = Math.random()*100+"%";
+        h.style.animationDuration = (Math.random()*3+2)+"s";
 
-    let result = document.getElementById("result");
-    result.innerText = text;
-    result.classList.remove("hidden");
+        h.onclick = ()=>{
+            score++;
+            document.getElementById("score").innerText = score;
+            h.remove();
+        };
 
-    createEffect();
+        document.body.appendChild(h);
 
-    if(clicks >= 3){
-        unlockFinal();
+        setTimeout(()=>h.remove(),5000);
     }
 }
 
-function unlockFinal(){
-    document.getElementById("final").classList.remove("hidden");
-
-    document.getElementById("mensajeFinal").innerText =
-    "Feliz cumpleaños 💙\n\nAunque no seas de abrazos...\nEres de las personas más importantes para mí.\n\nGracias por todo lo que vivimos juntos 🫶\n\nTe quiero un chingo 😎🔥";
+/* VOZ */
+function playVoice(){
+    document.getElementById("voz").play();
 }
 
-function createEffect(){
-    for(let i=0;i<10;i++){
-        let circle = document.createElement("div");
-        circle.classList.add("circle");
-        circle.style.width = Math.random()*20 + "px";
-        circle.style.height = circle.style.width;
-        circle.style.background = "rgba(255,255,255,0.3)";
-        circle.style.top = Math.random()*100 + "%";
-        circle.style.left = Math.random()*100 + "%";
+/* FINAL CINEMATICO */
+function final(){
+    next();
 
-        document.body.appendChild(circle);
-
-        setTimeout(()=>{ circle.remove(); }, 5000);
-    }
+    document.getElementById("finalText").innerText =
+    "Feliz cumpleaños 💜\n\nCASTILLO\n\nNo eres de abrazos...\npero eres de las personas más importantes en mi vida.\n\nGracias por todo.\n\nTe quiero un chingo 😎🔥";
 }
 
 </script>
 
 </body>
 </html>
-}
