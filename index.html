@@ -3,147 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Castillo 19 - The Season</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>CASTILLO 19 REMIX</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --miko-pink: #ff007f;
             --rayados-blue: #002d5d;
-            --accent: #00d4ff;
-            --bg: #0a0a0a;
+            --white: #ffffff;
         }
 
-        body, html {
-            margin: 0; padding: 0;
-            background-color: var(--bg);
+        body {
+            margin: 0;
+            background: #050505;
             color: white;
-            font-family: 'Helvetica Neue', sans-serif;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Fondo de Estrellas/Partículas */
-        #canvas-bg {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: -1;
-        }
-
-        .main-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Fondo de malla animada */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        .content {
+            width: 100%;
+            max-width: 400px;
             padding: 40px 20px;
-            min-height: 100vh;
-        }
-
-        /* Header con Estilo */
-        .header {
+            box-sizing: border-box;
             text-align: center;
-            margin-bottom: 30px;
         }
 
-        .header h1 {
-            font-size: 3.5rem;
+        .header-section h1 {
+            font-size: 4rem;
             margin: 0;
-            background: linear-gradient(to right, var(--miko-pink), var(--accent));
+            background: linear-gradient(to bottom, var(--white), var(--miko-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
+            font-weight: 900;
             letter-spacing: -2px;
         }
 
-        .badge {
-            background: var(--rayados-blue);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            border: 1px solid var(--accent);
-            margin-top: 10px;
-            display: inline-block;
+        .nickname {
+            letter-spacing: 5px;
+            color: var(--miko-pink);
+            font-weight: bold;
+            margin-top: -10px;
+            display: block;
         }
 
-        /* Player de Música Custom */
-        .player-container {
-            width: 90%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .play-btn {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: none;
-            background: var(--miko-pink);
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 0 20px var(--miko-pink);
-        }
-
-        .bars {
-            display: flex;
-            gap: 3px;
-            height: 20px;
-            align-items: flex-end;
-        }
-
-        .bar {
-            width: 4px;
-            background: var(--accent);
-            height: 20%;
-        }
-
-        /* La Tarjeta de Katty */
-        .katty-card {
+        /* Tarjeta Estilo Cromo de Fútbol */
+        .player-card {
             position: relative;
-            width: 100%;
-            max-width: 320px;
-            height: 450px;
+            width: 280px;
+            height: 380px;
+            margin: 30px auto;
+            background: linear-gradient(135deg, var(--rayados-blue), #000);
             border-radius: 20px;
+            border: 3px solid var(--white);
             overflow: hidden;
-            margin: 30px 0;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            transition: transform 0.5s;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .katty-card img {
-            width: 100%; height: 100%;
+        .player-card:active {
+            transform: scale(0.95) rotate(2deg);
+        }
+
+        .player-card img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
         }
 
-        .katty-overlay {
+        .card-stats {
             position: absolute;
             bottom: 0;
             width: 100%;
+            background: rgba(0, 45, 93, 0.9);
+            padding: 15px 0;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Reproductor Estilo Neón */
+        .music-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
             padding: 20px;
-            background: linear-gradient(transparent, var(--rayados-blue));
-            box-sizing: border-box;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
         }
 
-        /* Animaciones */
-        @keyframes dance {
-            0%, 100% { height: 20%; }
-            50% { height: 100%; }
+        .play-trigger {
+            background: var(--white);
+            color: black;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--white);
         }
 
-        .playing .bar { animation: dance 0.6s infinite ease-in-out; }
-        .bar:nth-child(2) { animation-delay: 0.1s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; }
-        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bars-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 30px;
+        }
+
+        .bar {
+            width: 6px;
+            background: var(--miko-pink);
+            height: 10%;
+            border-radius: 3px;
+        }
+
+        .animating .bar {
+            animation: bounce 0.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { height: 10%; }
+            100% { height: 100%; }
+        }
+
+        .footer-msg {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-top: 40px;
+            line-height: 1.5;
+        }
 
     </style>
 </head>
 <body>
 
-    <canvas id="canvas-bg"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
-    <div class="main-content">
-        <div class="header">
-            <div class="badge">SEASON 19 • CASTILLO</div>
+    <div class="content">
+        <div class="header-section">
+            <h1>19</h1>
+            <span class="nickname">CASTILLO REMIX</span>
+        </div>
+
+        <div class="player-card" onclick="triggerConfetti()">
+            <img src="https://oncediario.com/images/notas/2024/07/katty-martinez-rayadas-presentacion.jpg" alt="Katty Killer">
+            <div class="card-stats">
+                <div style="font-weight: 800; font-size: 1.2rem;">KATTY KILLER MODE</div>
+                <div style="font-size: 0.7rem; letter-spacing: 2px;">TOP SCORER • BDAY GIRL</div>
+            </div>
+        </div>
+
+        <div class="music-box" id="musicBox">
+            <div style="text-align: left;">
+                <div style="font-size: 0.8rem; opacity: 0.7;">NOW PLAYING</div>
+                <div style="font-weight: bold; color: var(--miko-pink);">YOUNG MIKO MIX</div>
+            </div>
+            
+            <button class="play-trigger" onclick="toggleMusic()" id="btnPlay">▶</button>
+
+            <div class="bars-container" id="visualizer">
+                <div class="bar" style="animation-delay: 0.1s"></div>
+                <div class="bar" style="animation-delay: 0.3s"></div>
+                <div class="bar" style="animation-delay: 0.2s"></div>
+                <div class="bar" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
+
+        <p class="footer-msg">
+            Diseñado para la mejor futbolista.<br>
+            Toca la carta para celebrar el gol.
+        </p>
+    </div>
+
+    <audio id="track" loop>
+        <source src="mikoWassup.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const audio = document.getElementById('track');
+        const btn = document.getElementById('btnPlay');
+        const visualizer = document.getElementById('musicBox');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().catch(e => alert("Sube el archivo musica.mp3 a tu GitHub para que suene."));
+                btn.innerText = "⏸";
+                visualizer.classList.add('animating');
+                triggerConfetti();
+            } else {
+                audio.pause();
+                btn.innerText = "▶";
+                visualizer.classList.remove('animating');
+            }
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.7 },
+                colors: ['#ff007f', '#ffffff', '#002d5d']
+            });
+        }
+
+        // Fondo Estrellas Dinámicas
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.onresize = resize;
+        resize();
+
+        for(let i=0; i<100; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5,
+                d: Math.random() * 10
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                ctx.fill();
+                s.y += 0.2;
+                if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
