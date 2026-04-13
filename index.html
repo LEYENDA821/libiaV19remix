@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HAPPY BIRTHDAY 19 💜 CASTILLO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nixie+One&display=swap" rel="stylesheet">
+    <title>PARA TI 💜 CASTILLO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-neon: #bc13fe;
@@ -17,22 +17,31 @@
         body {
             margin: 0;
             padding: 0;
-            /* Fondo de galaxia oscuro y profundo */
             background-color: #000;
-            background-image: 
-                radial-gradient(circle at center, rgba(30, 0, 60, 0.6) 0%, rgba(0, 0, 0, 1) 70%),
-                url('https://images.unsplash.com/photo-1506318137071-a8e063b4bcc0?q=80&w=1920'); /* Imagen de galaxia pública */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             color: var(--text-color);
-            font-family: 'Arial', sans-serif; /* Fuente por defecto */
-            overflow: hidden; /* Bloquea el scroll manual */
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
             width: 100vw;
             height: 100vh;
         }
 
-        /* SISTEMA DE PANTALLAS (Fixed para que no se corte en móviles) */
+        /* FONDO CON FOTO DE YOUNG MIKO BORROSA */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Imagen de Young Miko - Puedes cambiar el link si tienes una favorita */
+            background-image: url('miko1.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.4);
+            transform: scale(1.1); /* Evita bordes blancos por el blur */
+            z-index: -1;
+        }
+
+        /* PANTALLAS */
         .screen {
             position: fixed;
             top: 0;
@@ -43,104 +52,73 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            transform: translateY(100%); /* Todas ocultas abajo */
+            transform: translateY(100%);
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Mantenemos el fondo transparente para ver la galaxia */
             background: transparent; 
             z-index: 10;
         }
 
         .screen.active {
-            transform: translateY(0); /* La pantalla activa sube */
+            transform: translateY(0);
             z-index: 20;
         }
 
-        /* EFECTOS VISUALES MEJORADOS (Estilo Neón Vibrante) */
+        /* TÍTULOS ESTILO NEÓN */
         .neon-title {
-            font-family: 'Nixie One', cursive; /* Fuente neón más estilizada */
-            font-size: 3rem;
-            text-transform: uppercase;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 3px;
             color: #fff;
-            /* Neón doble: Cian y Magenta */
-            text-shadow: 
-                0 0 7px #fff,
-                0 0 10px #fff,
-                0 0 21px var(--secondary-neon),
-                0 0 42px var(--secondary-neon),
-                0 0 82px var(--secondary-neon),
-                0 0 92px var(--secondary-neon),
-                0 0 102px var(--secondary-neon),
-                0 0 151px var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px var(--secondary-neon);
             margin-bottom: 20px;
         }
 
         .neon-subtitle {
-            font-family: 'Nixie One', cursive;
-            font-size: 2.2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
             color: #fff;
-            text-shadow: 
-                0 0 7px #fff,
-                0 0 10px var(--secondary-neon),
-                0 0 21px var(--secondary-neon),
-                0 0 42px var(--secondary-neon);
-            margin-bottom: 30px;
+            text-shadow: 0 0 10px var(--secondary-neon);
+            margin-bottom: 25px;
         }
 
-        /* Estilo para el texto manuscrito (más vida) */
-        .script-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #f0f0f0;
+        /* TEXTO LEGIBLE */
+        .readable-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            color: #ffffff;
         }
 
-        /* BOTONES MEJORADOS */
+        /* BOTONES */
         button {
-            padding: 15px 30px;
+            padding: 16px 32px;
             margin: 10px;
             border: none;
-            border-radius: 50px; /* Bordes más redondeados */
+            border-radius: 8px;
             background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
             color: white;
-            font-weight: bold;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.6);
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.8);
-            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(188, 19, 254, 0.5);
         }
 
         button:active { transform: scale(0.95); }
 
         /* GALERÍA */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-            max-width: 320px;
-        }
-
         .gallery img {
-            width: 100%;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             object-fit: cover;
-            border-radius: 15px;
-            border: 3px solid var(--secondary-neon);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.05);
+            border-radius: 12px;
+            border: 2px solid var(--secondary-neon);
+            margin: 5px;
         }
 
         /* JUEGO */
@@ -150,81 +128,77 @@
             z-index: 100;
             cursor: pointer;
             animation: fall 3s linear forwards;
-            filter: drop-shadow(0 0 10px var(--primary-neon));
         }
 
         @keyframes fall {
-            from { top: -10%; transform: translateX(0) rotate(0deg); }
-            to { top: 110%; transform: translateX(20px) rotate(360deg); }
+            from { top: -10%; }
+            to { top: 110%; }
         }
 
         #msg-display {
-            height: 40px;
+            font-weight: 700;
             color: var(--secondary-neon);
-            font-weight: bold;
-            font-size: 1.2rem;
             margin: 20px 0;
-            text-shadow: 0 0 10px var(--secondary-neon);
+            min-height: 30px;
         }
     </style>
 </head>
 <body>
 
+    <div class="background-overlay"></div>
+
     <div class="screen active" id="s0">
         <h1 class="neon-title">CASTILLO 💜</h1>
-        <button onclick="goTo(1)">ENTRAR AQUÍ</button>
+        <button onclick="goTo(1)">DARLE PLAY</button>
     </div>
 
     <div class="screen" id="s1">
-        <h2 class="script-text" style="font-size: 2rem;">¿Cómo andas hoy? 😏</h2>
+        <h2 class="neon-subtitle">¿Cómo va el mood? 😏</h2>
         <div>
-            <button onclick="setMsg('⚽ América hasta la muerte 🔥')">⚽</button>
-            <button onclick="setMsg('😂 TikTokera profesional 💃')">😂</button>
-            <button onclick="setMsg('😡 Pero así eres única 😎')">😡</button>
+            <button onclick="setMsg('⚽ ¡América hasta la muerte! 🔥')">⚽</button>
+            <button onclick="setMsg('😂 TikTokera nivel pro 💃')">😂</button>
+            <button onclick="setMsg('😡 Pero así te quiero 😜')">😡</button>
         </div>
         <p id="msg-display"></p>
-        <button onclick="goTo(2)" style="background: none; border: 2px solid #fff; box-shadow: none;">SIGUIENTE</button>
+        <button onclick="goTo(2)" style="background:none; border: 1px solid white;">SIGUIENTE</button>
     </div>
 
     <div class="screen" id="s2">
         <h2 class="neon-subtitle">🎮 ATRAPA LOS 💜</h2>
-        <p class="script-text">Puntos: <span id="score" style="font-size: 2rem; color: var(--secondary-neon);">0</span></p>
-        <button id="play-btn" onclick="startHearts()">¡JUGAR!</button>
-        <button onclick="goTo(3)" style="background: none; border: 2px solid #fff; box-shadow: none;">SIGUIENTE</button>
+        <p class="readable-text">Puntos: <span id="score" style="color:var(--secondary-neon); font-size:1.5rem;">0</span></p>
+        <button id="play-btn" onclick="startHearts()">EMPEZAR JUEGO</button>
+        <button onclick="goTo(3)" style="background:none; border: 1px solid white;">CONTINUAR</button>
     </div>
 
     <div class="screen" id="s3">
         <h2 class="neon-subtitle">📸 RECUERDOS</h2>
         <div class="gallery">
-            <img src="miko1.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/ffffff?text=FOTO+1'">
-            <img src="miko2.png" onerror="this.src='https://via.placeholder.com/150/00ffff/000000?text=FOTO+2'">
-            <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
-            <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/000000?text=FOTO+4'">
+            <img src="miko2.png" onerror="this.src='https://via.placeholder.com/150/bc13fe/ffffff?text=FOTO+1'">
+            <img src="miko3.png" onerror="this.src='https://via.placeholder.com/150/00ffff/000000?text=FOTO+2'">
+            <img src="miko4.png" onerror="this.src='https://via.placeholder.com/150/ffffff/bc13fe?text=FOTO+3'">
+
         </div>
         <button onclick="playAudio()">🎤 ESCUCHAR</button>
-        <button onclick="finalSequence()">FINAL</button>
+        <button onclick="finalSequence()">LO ÚLTIMO</button>
     </div>
 
     <div class="screen" id="s4">
         <h1 class="neon-title">PARA TI 💜</h1>
-        <div id="final-content" style="max-width: 600px; padding: 0 20px;"></div>
+        <div id="final-content" style="max-width: 500px;"></div>
     </div>
 
     <audio id="audio" src="mikoWassup.mp3"></audio>
 
 <script>
-    // Navegación entre pantallas
     function goTo(index) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('s' + index).classList.add('active');
     }
 
-    // Mensajes de la pantalla 2
     function setMsg(txt) {
         document.getElementById('msg-display').innerText = txt;
     }
 
-    // Lógica del juego de corazones
     let score = 0;
     function startHearts() {
         document.getElementById('play-btn').style.display = 'none';
@@ -233,78 +207,49 @@
             const h = document.createElement('div');
             h.className = 'heart';
             h.innerText = '💜';
-            // Posición aleatoria
             h.style.left = Math.random() * 80 + 10 + '%';
-            // Duración aleatoria para que caigan a distinta velocidad
-            h.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            
-            h.onclick = () => { 
-                score++; 
-                document.getElementById('score').innerText = score; 
-                h.remove(); 
-            };
-            
+            h.onclick = () => { score++; document.getElementById('score').innerText = score; h.remove(); };
             document.body.appendChild(h);
             count++;
-            if(count > 30) clearInterval(game); // Caen 30 corazones
-            setTimeout(() => h.remove(), 4000); // Se eliminan si no se tocan
-        }, 300);
+            if(count > 25) clearInterval(game);
+            setTimeout(() => h.remove(), 3000);
+        }, 400);
     }
 
-    // Reproducir audio
     function playAudio() {
-        const a = document.getElementById('audio');
-        a.play().catch(() => alert("¡Dale otra vez al botón para escuchar el mensaje!"));
+        document.getElementById('audio').play().catch(() => alert("Toca de nuevo para el audio"));
     }
 
-    // Secuencia final con efecto de escritura y estilos aplicados
     function finalSequence() {
         goTo(4);
-        
-        const finalContent = document.getElementById('final-content');
-        finalContent.innerHTML = ""; // Limpiamos contenido previo
+        const container = document.getElementById('final-content');
+        container.innerHTML = "";
 
-        // Definimos las partes del texto con sus clases
         const textParts = [
-            { text: "Feliz cumpleaños 💜\n\n", class: "script-text" },
-            { text: "CASTILLO\n\n", class: "neon-subtitle" },
-            { text: "No eres de abrazos...\npero eres de las personas más importantes en mi vida.\n\n", class: "script-text" },
-            { text: "Gracias por todo.\n\n", class: "script-text" },
-            { text: "Te quiero un chingo 😎🔥", class: "script-text", style: "font-size: 1.8rem;" }
+            { text: "¡Feliz Cumpleaños! 💜\n\n", type: "title" },
+            { text: "CASTILLO\n\n", type: "subtitle" },
+            { text: "Sé que no eres de muchos abrazos...\npero eres de las personas más importantes en mi vida.\n\n", type: "body" },
+            { text: "Gracias por todo lo compartido.\n\n", type: "body" },
+            { text: "Te quiero un chingo 😎🔥", type: "body" }
         ];
 
-        let partIndex = 0;
-        let charIndex = 0;
-
+        let pIdx = 0; let cIdx = 0;
         function type() {
-            if (partIndex < textParts.length) {
-                const currentPart = textParts[partIndex];
-                
-                // Si es el primer carácter de la parte, creamos el elemento
-                if (charIndex === 0) {
-                    const newEl = document.createElement('p');
-                    newEl.className = currentPart.class;
-                    if (currentPart.style) newEl.style = currentPart.style;
-                    newEl.style.whiteSpace = "pre-line"; // Para respetar los saltos de línea
-                    finalContent.appendChild(newEl);
+            if (pIdx < textParts.length) {
+                if (cIdx === 0) {
+                    const el = document.createElement('p');
+                    if(textParts[pIdx].type === 'title') el.className = 'neon-subtitle';
+                    else if(textParts[pIdx].type === 'subtitle') el.style = "font-weight:700; font-size:1.8rem; color:var(--secondary-neon);";
+                    else el.className = 'readable-text';
+                    el.style.whiteSpace = "pre-line";
+                    container.appendChild(el);
                 }
-
-                // Añadimos el carácter al último elemento creado
-                finalContent.lastChild.innerText += currentPart.text.charAt(charIndex);
-                charIndex++;
-
-                // Si terminamos la parte actual, pasamos a la siguiente
-                if (charIndex >= currentPart.text.length) {
-                    partIndex++;
-                    charIndex = 0;
-                    setTimeout(type, 200); // Pausa más larga entre partes
-                } else {
-                    setTimeout(type, 50); // Velocidad de escritura
-                }
+                container.lastChild.innerText += textParts[pIdx].text.charAt(cIdx);
+                cIdx++;
+                if (cIdx >= textParts[pIdx].text.length) { pIdx++; cIdx = 0; setTimeout(type, 300); }
+                else { setTimeout(type, 40); }
             }
         }
-        
-        // Empezamos a escribir después de un pequeño delay
         setTimeout(type, 800);
     }
 </script>
