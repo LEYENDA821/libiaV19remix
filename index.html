@@ -2,148 +2,148 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡HB Castillo! 19</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Castillo 19 - The Season</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --miko-pink: #ff69b4;
+            --miko-pink: #ff007f;
             --rayados-blue: #002d5d;
-            --white: #ffffff;
+            --accent: #00d4ff;
+            --bg: #0a0a0a;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #000 0%, var(--rayados-blue) 100%);
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg);
             color: white;
+            font-family: 'Helvetica Neue', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Fondo de Estrellas/Partículas */
+        #canvas-bg {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+        }
+
+        .main-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
+            padding: 40px 20px;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        .container {
-            padding: 20px;
-            max-width: 400px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px var(--miko-pink);
-        }
-
-        .nickname {
-            font-size: 1.5rem;
-            color: var(--miko-pink);
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .photo-frame {
-            width: 250px;
-            height: 250px;
-            margin: 20px auto;
-            border: 4px solid var(--white);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
-        }
-
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .message {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-
-        .music-player {
-            background: var(--white);
-            color: #000;
-            padding: 15px 30px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s;
-            border: none;
+        /* Header con Estilo */
+        .header {
+            text-align: center;
             margin-bottom: 30px;
         }
 
-        .music-player:active {
-            transform: scale(0.9);
+        .header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(to right, var(--miko-pink), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: -2px;
         }
 
-        .katty-section {
-            font-size: 0.9rem;
-            color: #ddd;
-            font-style: italic;
-        }
-
-        .football-icon {
-            font-size: 2rem;
+        .badge {
+            background: var(--rayados-blue);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--accent);
             margin-top: 10px;
+            display: inline-block;
         }
+
+        /* Player de Música Custom */
+        .player-container {
+            width: 90%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .play-btn {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--miko-pink);
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px var(--miko-pink);
+        }
+
+        .bars {
+            display: flex;
+            gap: 3px;
+            height: 20px;
+            align-items: flex-end;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--accent);
+            height: 20%;
+        }
+
+        /* La Tarjeta de Katty */
+        .katty-card {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: transform 0.5s;
+        }
+
+        .katty-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .katty-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(transparent, var(--rayados-blue));
+            box-sizing: border-box;
+        }
+
+        /* Animaciones */
+        @keyframes dance {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+
+        .playing .bar { animation: dance 0.6s infinite ease-in-out; }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
 
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <p class="nickname">¡FELICES 19, CASTILLO!</p>
-        <h1>⚽️🔥</h1>
-        
-        <div class="photo-frame">
-            <img src="https://itp-imagestorage.s3.amazonaws.com/katty_killer.jpg" alt="Katty Killer">
-        </div>
+    <canvas id="canvas-bg"></canvas>
 
-        <div class="message">
-            <p>Hoy se celebra a la mejor futbolista de la familia. Que este año sea modo <b>Katty Killer</b>: puro gol y puro éxito.</p>
-            <p>Disfruta tus 19 al ritmo de la Miko. ¡Te quiero mucho!</p>
-        </div>
-
-        <button class="music-player" onclick="toggleMusic()">
-            <span id="icon">▶️</span> <span id="text">DARLE PLAY (Miko Vibes)</span>
-        </button>
-
-        <div class="katty-section">
-            <p>Enamorada de la 10 de Rayadas 💙🤍</p>
-        </div>
-
-        <audio id="bdaySong" loop>
-            <source src="TU_LINK_DE_MUSICA_AQUI.mp3" type="audio/mpeg">
-        </audio>
-    </div>
-
-    <script>
-        const audio = document.getElementById('bdaySong');
-        const icon = document.getElementById('icon');
-        const text = document.getElementById('text');
-
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                icon.innerText = "⏸️";
-                text.innerText = "SINTIENDO EL FLOW";
-            } else {
-                audio.pause();
-                icon.innerText = "▶️";
-                text.innerText = "DARLE PLAY";
-            }
-        }
-    </script>
-</body>
-</html>
+    <div class="main-content">
+        <div class="header">
+            <div class="badge">SEASON 19 • CASTILLO</div>
